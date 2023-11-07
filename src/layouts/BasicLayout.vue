@@ -1,7 +1,9 @@
 <template>
   <div id="BasicLayout">
     <a-layout style="height: 400px">
-      <a-layout-header class="header">导航栏</a-layout-header>
+      <a-layout-header class="header">
+        <global-header />
+      </a-layout-header>
       <a-layout-content class="content">
         <router-view />
       </a-layout-content>
@@ -38,3 +40,6 @@
   text-align: center;
 }
 </style>
+<script setup lang="ts">
+import GlobalHeader from "@/components/GlobalHeader.vue";
+</script>
