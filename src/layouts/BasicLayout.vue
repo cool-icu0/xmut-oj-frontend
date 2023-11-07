@@ -30,5 +30,11 @@
 
 #BasicLayout .footer {
   background: #efefef;
+  padding: 16px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
 }
 </style>
