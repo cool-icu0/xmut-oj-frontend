@@ -1,6 +1,6 @@
 <template>
   <div id="BasicLayout">
-    <a-layout style="height: 400px">
+    <a-layout style="min-height: 100vh">
       <a-layout-header class="header">
         <global-header />
       </a-layout-header>
@@ -28,12 +28,13 @@
 #BasicLayout .content {
   background: linear-gradient(to right, #bbb, #fff);
   margin-bottom: 16px;
+  padding: 20px;
 }
 
 #BasicLayout .footer {
   background: #efefef;
   padding: 16px;
-  position: absolute;
+  position: sticky;
   bottom: 0;
   left: 0;
   right: 0;
