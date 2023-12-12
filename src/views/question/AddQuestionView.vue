@@ -315,8 +315,9 @@ const onAnswerChange = (value: string) => {
 <style scoped>
 #addQuestionView {
   margin: 0 auto;
-  max-width: 900px;
-  background: linear-gradient(to right, #efefef, #fff, #efefef);
+  max-width: 800px;
+  padding: 5px;
+  box-shadow: 0px 0px 10px rgba(35, 7, 7, 0.21);
   border-radius: 10px;
 }
 </style>

@@ -17,13 +17,30 @@
       <a-form-item field="tags" label="题目标签：" style="min-width: 280px">
         <a-input-tag v-model="searchParams.tags" placeholder="请输入题目标签" />
       </a-form-item>
-      <a-form-item>
-        <a-button type="outline" shape="round" status="normal" @click="doSubmit"
-          >搜索
-        </a-button>
-      </a-form-item>
+      <a-space>
+        <a-form-item>
+          <a-button
+            type="outline"
+            shape="round"
+            status="normal"
+            @click="doSubmit"
+            >搜索
+          </a-button>
+        </a-form-item>
+        <a-form-item>
+          <a-button
+            type="outline"
+            shape="round"
+            status="danger"
+            @click="batchDelete"
+            >批量删除
+          </a-button>
+        </a-form-item>
+      </a-space>
     </a-form>
     <a-table
+      row-key="id"
+      :row-selection="rowSelection"
       :column-resizable="true"
       :ref="tableRef"
       :columns="columns"
@@ -36,6 +53,7 @@
         showJumper: true,
         showPageSize: true,
       }"
+      v-model:selectedKeys="selectedKeys"
       @page-change="onPageChange"
       @pageSizeChange="onPageSizeChange"
     >
@@ -115,7 +133,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { onMounted, ref, watchEffect } from "vue";
+import { onMounted, reactive, ref, watchEffect } from "vue";
 import {
   Question,
   QuestionControllerService,
@@ -124,7 +142,11 @@ import {
 import message from "@arco-design/web-vue/es/message";
 
 import { useRouter } from "vue-router";
-
+const selectedKeys = ref([]);
+const rowSelection = reactive({
+  type: "checkbox",
+  showCheckedAll: true,
+});
 const tableRef = ref();
 
 const dataList = ref([]);
@@ -149,6 +171,7 @@ const loadData = async () => {
   } else {
     message.error("加载失败，" + res.message);
   }
+  // console.log("111:" + dataList.value);
 };
 /**
  * 监听 searchParams 变量，改变时触发页面的重新加载
@@ -251,6 +274,24 @@ const doDelete = async (question: Question) => {
     message.error("删除失败");
   }
 };
+/**
+ * 批量删除
+ */
+const batchDelete = async () => {
+  // 假设这里是发送批量删除请求的代码
+  console.log("要删除的ID列表：", selectedKeys.value);
+  // 在这里可以调用API或者其他方法来发送批量删除请求
+  const res = await QuestionControllerService.batchDeleteQuestionUsingPost({
+    ids: selectedKeys.value,
+  });
+  if (res.code === 0) {
+    message.success("删除成功");
+    // 更新数据
+    loadData();
+  } else {
+    message.error("删除失败");
+  }
+};
 
 const router = useRouter();
 
@@ -270,7 +311,7 @@ const toQuestionPage = (questionId: QuestionSubmitQueryRequest) => {
  */
 const doUpdate = (question: Question) => {
   router.push({
-    path: "/update/question",
+    path: "/question/update",
     query: {
       id: question.id,
     },

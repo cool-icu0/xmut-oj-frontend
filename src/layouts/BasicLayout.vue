@@ -2,14 +2,14 @@
   <div id="BasicLayout">
     <a-layout style="min-height: 100vh">
       <a-layout-header class="header">
-        <global-header />
+        <GlobalHeader />
       </a-layout-header>
       <a-layout-content class="content">
         <router-view />
       </a-layout-content>
       <a-layout-footer class="footer">
         <a href="https://yuque.com/icu0" target="_blank">
-          厦门理工学院在线判题系统 By Cool
+          厦门理工学院代码在线判题系统 By Cool
         </a>
       </a-layout-footer>
     </a-layout>

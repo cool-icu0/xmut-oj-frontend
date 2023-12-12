@@ -5,4 +5,5 @@
 
 export type DeleteRequest = {
     id?: number;
+    ids?: Array<number>;
 };

@@ -1,14 +1,17 @@
 <template>
-  <div id="code-editor" ref="codeEditorRef" style="min-height: 400px"></div>
+  <div
+    id="code-editor"
+    ref="codeEditorRef"
+    style="min-height: 200px; height: 70vh"
+  ></div>
 </template>
 
 <script setup lang="ts">
 import * as monaco from "monaco-editor";
-import { onMounted, ref, toRaw, watch, withDefaults, defineProps } from "vue";
+import { defineProps, onMounted, ref, toRaw, watch, withDefaults } from "vue";
 
 const codeEditorRef = ref();
 const codeEditor = ref();
-const value = ref("hello world");
 
 /**
  * 定义组件属性类型
@@ -48,7 +51,7 @@ onMounted(() => {
   }
   codeEditor.value = monaco.editor.create(codeEditorRef.value, {
     value: props.value,
-    language: "java",
+    language: props.language,
     folding: true, // 是否折叠
     foldingHighlight: true, // 折叠等高线
     foldingStrategy: "indentation", // 折叠方式  auto | indentation
@@ -56,6 +59,9 @@ onMounted(() => {
     disableLayerHinting: true, // 等宽优化
     minimap: {
       enabled: true,
+      autohide: true,
+      showSlider: "mouseover",
+      scale: 2,
       size: "fill",
       maxColumn: 50,
     }, // 开启小地图
@@ -67,7 +73,7 @@ onMounted(() => {
     colorDecorators: true, // 颜色装饰器
     accessibilitySupport: "off", // 辅助功能支持  "auto" | "off" | "on"
     lineNumbers: "on", // 行号 取值： "on" | "off" | "relative" | "interval" | function
-    lineNumbersMinChars: 4, // 行号最小字符   number
+    lineNumbersMinChars: 1, // 行号最小字符   number
     readOnly: false,
     theme: "vs-dark",
   });
@@ -77,7 +83,7 @@ onMounted(() => {
     props.handleChange(toRaw(codeEditor.value).getValue());
   });
 
-  // todo 代码提示
+  // 代码提示
   monaco.languages.registerCompletionItemProvider("java", {
     provideCompletionItems: function (model, position) {
       // 获取当前行数

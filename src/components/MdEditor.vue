@@ -9,9 +9,9 @@
 
 <script setup lang="ts">
 import gfm from "@bytemd/plugin-gfm";
-import highlight from "@bytemd/plugin-highlight";
 import { Editor } from "@bytemd/vue-next";
 import { defineProps, withDefaults } from "vue";
+import highlight from "@bytemd/plugin-highlight";
 
 /**
  * 定义组件属性类型，外层传入数据
@@ -24,6 +24,7 @@ interface Props {
 
 const plugins = [gfm(), highlight()];
 /**
+ /**
  * 属性默认值
  */
 const props = withDefaults(defineProps<Props>(), {
@@ -36,4 +37,9 @@ const props = withDefaults(defineProps<Props>(), {
 });
 </script>
 
-<style scoped></style>
+<style>
+/*去掉GitHub图表*/
+.bytemd-toolbar-icon.bytemd-tippy.bytemd-tippy-right:last-child {
+  display: none;
+}
+</style>

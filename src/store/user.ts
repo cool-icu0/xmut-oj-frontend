@@ -12,7 +12,7 @@ export default {
     },
   }),
   actions: {
-    async getLoginUser({ commit, state }, payload) {
+    async getLoginUser({ commit, state }) {
       //改成从远程请求获取登录信息
       const res = await UserControllerService.getLoginUserUsingGet();
       if (res.code === 0) {
@@ -23,7 +23,6 @@ export default {
           userRole: ACCESS_ENUM.NOT_LOGIN,
         });
       }
-      // todo 1改成从远程请求获取登录信息
     },
   },
   mutations: {

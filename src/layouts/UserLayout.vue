@@ -26,6 +26,7 @@
   width: 100%;
   height: 100%;
   /*下面是在线的壁纸链接*/
+  /*background: url("https://gw.alipayobjects.com/zos/rmsportal/FfdJeJRQWjEeGTpqgBKj.png");*/
   /*background: url("https://dogefs.s3.ladydaily.com/~/source/wallhaven/full/yj/wallhaven-yjd5jk.png?w=2560&h=1440&fmt=webp");*/
 }
 
