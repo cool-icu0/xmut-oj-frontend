@@ -105,7 +105,7 @@ const searchParams = ref<QuestionQueryRequest>({
   pageSize: 10,
   current: 1,
 });
-console.log("小数：", Math.round(5.111111 * 100) / 100);
+// console.log("小数：", Math.round(5.111111 * 100) / 100);
 const loadData = async () => {
   const res = await QuestionControllerService.listQuestionVoByPageUsingPost({
     ...searchParams.value,

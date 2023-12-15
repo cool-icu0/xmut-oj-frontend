@@ -164,7 +164,7 @@ const columns = [
     align: "center",
   },
   {
-    title: "提交者",
+    title: "提交者ID",
     dataIndex: "userId",
     align: "center",
   },

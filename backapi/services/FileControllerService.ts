@@ -35,14 +35,14 @@ file?: Blob,
     }
 
     /**
-     * uploadFile
+     * uploadCosFile
      * @param biz 
      * @param file 
      * @returns BaseResponse_string_ OK
      * @returns any Created
      * @throws ApiError
      */
-    public static uploadFileUsingPost(
+    public static uploadCosFileUsingPost(
 biz?: string,
 file?: Blob,
 ): CancelablePromise<BaseResponse_string_ | any> {

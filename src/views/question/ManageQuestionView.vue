@@ -11,7 +11,7 @@
       <a-form-item field="title" label="用户：">
         <a-input v-model="searchParams.userId" placeholder="请输入搜索用户" />
       </a-form-item>
-      <a-form-item field="title" label="题目内容">
+      <a-form-item field="title" label="题目内容：">
         <a-input v-model="searchParams.content" placeholder="请输入题目内容" />
       </a-form-item>
       <a-form-item field="tags" label="题目标签：" style="min-width: 280px">
@@ -195,6 +195,10 @@ const columns = [
   {
     title: "标题",
     dataIndex: "title",
+  },
+  {
+    title: "用户id",
+    dataIndex: "userId",
   },
   {
     title: "内容",

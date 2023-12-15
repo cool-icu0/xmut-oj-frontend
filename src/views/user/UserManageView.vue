@@ -5,22 +5,22 @@
       layout="inline"
       style="justify-content: center; align-content: center; margin: 25px"
     >
-      <a-form-item field="title" label="用户编号：" tooltip="请输入用户的编号">
+      <a-form-item field="title" label="用户编号：">
         <a-input
           v-model="searchParams.id"
           placeholder="请输入要搜索的用户编号"
         />
       </a-form-item>
-      <a-form-item field="title" label="用户名称：" tooltip="请输入用户名称">
+      <a-form-item field="title" label="用户名称：">
         <a-input
           v-model="searchParams.userName"
           placeholder="请输入要搜索的用户名称"
         />
       </a-form-item>
-      <a-form-item field="title" label="电话：" tooltip="请输入电话">
+      <a-form-item field="title" label="电话：">
         <a-input v-model="searchParams.phone" placeholder="请输入搜索电话" />
       </a-form-item>
-      <a-form-item field="title" label="邮箱：" tooltip="请输入邮箱">
+      <a-form-item field="title" label="邮箱：">
         <a-input v-model="searchParams.email" placeholder="请输入搜索邮箱" />
       </a-form-item>
       <a-form-item>
@@ -200,6 +200,7 @@ const loadData = async () => {
     sortField: "createTime",
     sortOrder: "descend",
   });
+  // console.log("test:" + userInfo.value);
   if (res.code === 0) {
     dataList.value = res.data.records;
     total.value = res.data.total;
@@ -224,7 +225,7 @@ onMounted(() => {
 
 const columns = [
   {
-    title: "编号",
+    title: "用户编号",
     dataIndex: "id",
     align: "center",
   },
@@ -316,9 +317,9 @@ const onPageSizeChange = (size: number) => {
  */
 const openModalForm = async (userId: any) => {
   const res = await UserControllerService.getUserByIdUsingGet(userId);
-  console.log("res:", res.data);
+  // console.log("res:", res.data);
   userInfo.value = res.data;
-  console.log(userInfo.value);
+  // console.log(userInfo.value);
   visible.value = true;
 };
 /**
@@ -355,11 +356,11 @@ let userAvatarImg = userInfo.value?.userAvatar;
  * 上传头像
  */
 const uploadAvatar = async () => {
-  console.log("测试点1");
+  // console.log("测试点1");
   const res = await FileControllerService.uploadOssFileUsingPost(
     file?.value.file
   );
-  console.log("测试点2");
+  // console.log("测试点2");
   if (res.code === 0) {
     userAvatarImg = res.data;
     Message.success("上传成功，点击确认即可修改头像");
