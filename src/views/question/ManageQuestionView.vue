@@ -162,7 +162,7 @@ import message from "@arco-design/web-vue/es/message";
 import { useRouter } from "vue-router";
 import axios from "axios";
 
-const selectedKeys = ref([]);
+const selectedKeys = ref<Array<number>>([]);
 // const selectedKeys = ref<number[]>([]);
 
 const rowSelection = reactive({
@@ -326,15 +326,17 @@ const batchDownload = async () => {
   console.log("要下载的ID列表：", selectedKeys.value);
   // 在这里可以调用API或者其他方法来发送批量删除请求
   try {
-    // const response = await axios.post(
-    //   "http://localhost:8101/api/question/batchDownload",
-    //   selectedKeys.value,
-    //   { responseType: "blob" }
-    // );
-    const response =
-      await QuestionControllerService.batchDownloadQuestionsUsingPost(
-        selectedKeys.value
-      );
+    const response = await axios.post(
+      "http://localhost:8101/api/question/batchDownload",
+      selectedKeys.value,
+      { responseType: "blob" }
+    );
+    //此次没办法集成项目的axios，因为没办法定义axios的返回类型为blob
+    // const response =
+    //   await QuestionControllerService.batchDownloadQuestionsUsingPost(
+    //     selectedKeys.value
+    //   );
+    // console.log("当前代码格式", response);
     const blob = new Blob([response.data], { type: "application/zip" });
     const url = window.URL.createObjectURL(blob);
     const link = document.createElement("a");

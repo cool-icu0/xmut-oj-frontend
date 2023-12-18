@@ -19,7 +19,7 @@ import type { QuestionUpdateRequest } from '../models/QuestionUpdateRequest';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
-import { request as __request } from '../core/request';
+import { isBlob, request as __request } from "../core/request";
 
 export class QuestionControllerService {
 
