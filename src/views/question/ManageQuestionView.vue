@@ -28,13 +28,22 @@
           </a-button>
         </a-form-item>
         <a-form-item>
-          <a-button
-            type="outline"
-            shape="round"
-            status="danger"
-            @click="batchDelete"
-            >批量删除
-          </a-button>
+          <a-popconfirm
+            content="确定要批量删除这些题目吗?"
+            type="error"
+            okText="是"
+            cancelText="否"
+            @cancel="
+              () => {
+                console.log(`已取消`);
+              }
+            "
+            @ok="batchDelete"
+          >
+            <a-button shape="round" type="outline" status="danger"
+              >批量删除
+            </a-button>
+          </a-popconfirm>
         </a-form-item>
         <a-form-item>
           <a-button
@@ -317,15 +326,15 @@ const batchDownload = async () => {
   console.log("要下载的ID列表：", selectedKeys.value);
   // 在这里可以调用API或者其他方法来发送批量删除请求
   try {
-    const response = await axios.post(
-      "http://localhost:8101/api/question/batchDownload",
-      selectedKeys.value,
-      { responseType: "blob" }
-    );
-    // const response =
-    //   await QuestionControllerService.batchDownloadQuestionsUsingPost({
-    //     ids: selectedKeys.value,
-    //   });
+    // const response = await axios.post(
+    //   "http://localhost:8101/api/question/batchDownload",
+    //   selectedKeys.value,
+    //   { responseType: "blob" }
+    // );
+    const response =
+      await QuestionControllerService.batchDownloadQuestionsUsingPost(
+        selectedKeys.value
+      );
     const blob = new Blob([response.data], { type: "application/zip" });
     const url = window.URL.createObjectURL(blob);
     const link = document.createElement("a");

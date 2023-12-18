@@ -10,7 +10,6 @@ import type { BaseResponse_Page_QuestionVO_ } from '../models/BaseResponse_Page_
 import type { BaseResponse_Question_ } from '../models/BaseResponse_Question_';
 import type { BaseResponse_QuestionVO_ } from '../models/BaseResponse_QuestionVO_';
 import type { DeleteRequest } from '../models/DeleteRequest';
-import type { DownloadRequest } from '../models/DownloadRequest';
 import type { QuestionAddRequest } from '../models/QuestionAddRequest';
 import type { QuestionEditRequest } from '../models/QuestionEditRequest';
 import type { QuestionQueryRequest } from '../models/QuestionQueryRequest';
@@ -70,18 +69,18 @@ deleteRequest: DeleteRequest,
 
     /**
      * batchDownloadQuestions
-     * @param downloadRequest downloadRequest
+     * @param ids ids
      * @returns string OK
      * @returns any Created
      * @throws ApiError
      */
     public static batchDownloadQuestionsUsingPost(
-downloadRequest: DownloadRequest,
+ids: Array<number>,
 ): CancelablePromise<string | any> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/question/batchDownload',
-            body: downloadRequest,
+            body: ids,
             errors: {
                 401: `Unauthorized`,
                 403: `Forbidden`,
