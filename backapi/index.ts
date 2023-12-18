@@ -24,6 +24,7 @@ export type { BaseResponse_string_ } from './models/BaseResponse_string_';
 export type { BaseResponse_User_ } from './models/BaseResponse_User_';
 export type { BaseResponse_UserVO_ } from './models/BaseResponse_UserVO_';
 export type { DeleteRequest } from './models/DeleteRequest';
+export type { DownloadRequest } from './models/DownloadRequest';
 export type { JudgeCase } from './models/JudgeCase';
 export type { JudgeConfig } from './models/JudgeConfig';
 export type { JudgeInfo } from './models/JudgeInfo';

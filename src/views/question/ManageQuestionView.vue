@@ -36,6 +36,15 @@
             >批量删除
           </a-button>
         </a-form-item>
+        <a-form-item>
+          <a-button
+            type="outline"
+            shape="round"
+            status="success"
+            @click="batchDownload"
+            >批量下载
+          </a-button>
+        </a-form-item>
       </a-space>
     </a-form>
     <a-table
@@ -142,7 +151,11 @@ import {
 import message from "@arco-design/web-vue/es/message";
 
 import { useRouter } from "vue-router";
+import axios from "axios";
+
 const selectedKeys = ref([]);
+// const selectedKeys = ref<number[]>([]);
+
 const rowSelection = reactive({
   type: "checkbox",
   showCheckedAll: true,
@@ -296,7 +309,37 @@ const batchDelete = async () => {
     message.error("删除失败");
   }
 };
-
+/**
+ * 批量下载
+ */
+const batchDownload = async () => {
+  // 假设这里是发送批量删除请求的代码
+  console.log("要下载的ID列表：", selectedKeys.value);
+  // 在这里可以调用API或者其他方法来发送批量删除请求
+  try {
+    const response = await axios.post(
+      "http://localhost:8101/api/question/batchDownload",
+      selectedKeys.value,
+      { responseType: "blob" }
+    );
+    // const response =
+    //   await QuestionControllerService.batchDownloadQuestionsUsingPost({
+    //     ids: selectedKeys.value,
+    //   });
+    const blob = new Blob([response.data], { type: "application/zip" });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", "questions.zip");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    message.success("下载成功");
+  } catch (error) {
+    message.error("下载失败");
+    console.error("Error downloading questions:", error);
+  }
+};
 const router = useRouter();
 
 //todo 2
