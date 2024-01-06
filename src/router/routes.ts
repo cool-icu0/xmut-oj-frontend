@@ -11,6 +11,10 @@ import ManageQuestionView from "@/views/question/ManageQuestionView.vue";
 import QuestionsView from "@/views/question/QuestionsView.vue";
 import QuestionSubmitView from "@/views/question/QuestionSubmitView.vue";
 import ViewQuestionView from "@/views/question/ViewQuestionView.vue";
+import ChartOne from "@/views/echart/ChartOne.vue";
+import ChartSkill from "@/views/echart/ChartSkill.vue";
+import FirstPage from "@/views/FirstPage.vue";
+import QuestionInfo from "@/views/question/QuestionInfo.vue";
 
 export const routes: Array<RouteRecordRaw> = [
   //user路由
@@ -43,7 +47,17 @@ export const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
     name: "主页",
+    component: FirstPage,
+  },
+  {
+    path: "/questions",
+    name: "题目",
     component: QuestionsView,
+  },
+  {
+    path: "/chart",
+    name: "刷题情况",
+    component: ChartSkill,
   },
   {
     path: "/question_submit",
@@ -63,6 +77,16 @@ export const routes: Array<RouteRecordRaw> = [
       hideInMenu: true,
     },
   },
+  // {
+  //   path: "/questionInfo/view/:id",
+  //   name: "查看提交代码",
+  //   component: QuestionInfo,
+  //   props: true, // 开启接收动态id
+  //   meta: {
+  //     access: ACCESS_ENUM.USER,
+  //     hideInMenu: true,
+  //   },
+  // },
   {
     path: "/question/add",
     name: "创建题目",

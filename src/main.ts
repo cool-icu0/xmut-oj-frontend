@@ -10,9 +10,12 @@ import ArcoVueIcon from "@arco-design/web-vue/es/icon";
 import "bytemd/dist/index.css";
 import "katex/dist/katex.css";
 import "highlight.js/styles/atom-one-dark-reasonable.css";
+import ECharts from "vue-echarts"; // 引入ECharts
+import "echarts"; // 全局引入echarts
 const app = createApp(App);
 app.use(ArcoVue);
 app.use(store);
 app.use(router);
 app.use(ArcoVueIcon);
+app.component("ECharts", ECharts);
 app.mount("#app");

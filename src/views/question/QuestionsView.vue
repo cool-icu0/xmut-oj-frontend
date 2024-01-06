@@ -192,6 +192,11 @@ const router = useRouter();
  * 跳转到做题页面
  * @param question
  */
+// const toQuestionPage = (question: Question) => {
+//   router.push({
+//     path: `/question/view/${question.id}`,
+//   });
+// };
 const toQuestionPage = (question: Question) => {
   router.push({
     path: `/question/view/${question.id}`,

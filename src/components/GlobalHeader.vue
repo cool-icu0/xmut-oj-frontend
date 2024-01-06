@@ -24,6 +24,12 @@
       </div>
     </a-col>
     <a-space size="large">
+      <a-space>
+        <a-switch v-model="isDarkTheme" @change="handleThemeChange">
+          <template #checked> 开灯 </template>
+          <template #unchecked> 关灯 </template>
+        </a-switch>
+      </a-space>
       <a-dropdown trigger="hover">
         <template
           v-if="loginUser && loginUser.userRole !== AccessEnum.NOT_LOGIN"
@@ -97,6 +103,7 @@ import { LoginUserVO, UserControllerService } from "../../backapi";
 const router = useRouter();
 // 获取存储用户的信息
 const store = useStore();
+const isDarkTheme = ref(false);
 
 // 获取登录用户信息
 const loginUser: LoginUserVO = computed(
@@ -118,7 +125,6 @@ const visibleRoutes = computed(() => {
     return true;
   });
 });
-
 // 用户注销
 const logout = () => {
   UserControllerService.userLogoutUsingPost();
@@ -138,6 +144,22 @@ const doMenuClick = (key: string) => {
     path: key,
   });
 };
+const handleThemeChange = () => {
+  if (isDarkTheme.value) {
+    setDarkTheme();
+  } else {
+    setLightTheme();
+  }
+};
+
+const setDarkTheme = () => {
+  document.body.setAttribute("arco-theme", "dark");
+};
+
+const setLightTheme = () => {
+  document.body.removeAttribute("arco-theme");
+};
+
 // 自动登录
 // setTimeout(() => {
 //   store.dispatch("user/getLoginUser", {

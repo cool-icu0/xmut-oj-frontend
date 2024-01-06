@@ -41,7 +41,7 @@ axios.interceptors.request.use(
 // 添加响应拦截器
 axios.interceptors.response.use(
   function (response) {
-    console.log("全局响应", response);
+    // console.log("全局响应", response);
     // 2xx 范围内的状态码都会触发该函数。
     // 对响应数据做点什么
     return response;

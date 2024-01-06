@@ -33,7 +33,7 @@
             </a-card>
           </a-tab-pane>
           <a-tab-pane key="comment" title="评论"> 评论区</a-tab-pane>
-          <a-tab-pane key="answer" title="答案"> 提交后方可查看答案</a-tab-pane>
+          <a-tab-pane key="answer" title="答案"> 提交后显示答案</a-tab-pane>
         </a-tabs>
       </a-col>
       <a-col :md="12" :xs="24">
@@ -60,9 +60,9 @@
           type="primary"
           style="min-width: 200px; margin-left: 280px"
           size="large"
-          @click="doSubmit"
+          @click="recordDetail"
         >
-          提交代码
+          查看提交代码
         </a-button>
       </a-col>
     </a-row>
@@ -79,6 +79,7 @@ import {
   withDefaults,
 } from "vue";
 import {
+  Question,
   QuestionControllerService,
   QuestionSubmitAddRequest,
   QuestionVO,
@@ -86,49 +87,26 @@ import {
 import message from "@arco-design/web-vue/es/message";
 import CodeEditor from "@/components/CodeEditor.vue";
 import MdViewer from "@/components/MdViewer.vue";
+import { editor } from "monaco-editor";
 
 interface Props {
   id: string;
 }
 
-//计时器
-const showTimer = ref(false);
-const time = ref(0);
-let intervalId: any = null;
-
-const formatTime = (time: number): string => {
-  const hours = Math.floor(time / 3600);
-  const minutes = Math.floor((time % 3600) / 60);
-  const seconds = time % 60;
-
-  return `${hours < 10 ? "0" + hours : hours}:${
-    minutes < 10 ? "0" + minutes : minutes
-  }:${seconds < 10 ? "0" + seconds : seconds}`;
+const codeDefaultValue = ref();
+/**
+ * 查看提交的代码详情
+ */
+const recordDetail = async () => {
+  const res = await QuestionControllerService.getQuestionById2AnswerUsingGet(
+    props.id as any
+  );
+  codeDefaultValue.value = res.data?.answer;
+  // console.log(codeDefaultValue.value);
+  editor.getModels()[0]?.setValue(codeDefaultValue.value);
+  console.log(editor.getModels()[0].getValue());
+  // console.log(res.data);
 };
-
-const startTimer = () => {
-  showTimer.value = true;
-};
-const stopTimer = () => {
-  showTimer.value = false;
-  time.value = 0;
-};
-
-watch(
-  () => showTimer.value,
-  (newVal: boolean) => {
-    if (newVal) {
-      intervalId = setInterval(() => {
-        time.value++;
-      }, 1000);
-    } else {
-      clearInterval(intervalId);
-    }
-  }
-);
-onUnmounted(() => {
-  clearInterval(intervalId);
-});
 /**
  * 获取到动态路由 id
  */
@@ -148,48 +126,23 @@ const loadData = async () => {
     message.error("加载失败，" + res.message);
   }
 };
+const refreshPage = () => {
+  location.reload();
+};
 
 /**
  * 不同语言的默认程序
  */
-const codeDefaultValue = ref(
-  "public class Main {\n" +
-    "    public static void main(String[] args) {\n" +
-    "        int a = Integer.parseInt(args[0]);\n" +
-    "        int b = Integer.parseInt(args[1]);\n" +
-    "        System.out.println(a + b);\n" +
-    "    }\n" +
-    "}\n"
-);
 
 const form = ref<QuestionSubmitAddRequest>({
   submitLanguage: "java",
   submitCode: codeDefaultValue as unknown as string,
 });
-
-/**
- * 提交代码
- */
-const doSubmit = async () => {
-  if (!question.value?.id) {
-    return;
-  }
-
-  const res = await QuestionControllerService.doQuestionSubmitUsingPost({
-    ...form.value,
-    questionId: question.value.id,
-  });
-  if (res.code === 0) {
-    message.success("提交成功，请到已提交题目界面查看");
-  } else {
-    message.error("提交失败," + res.message);
-  }
-};
-
 /**
  * 页面加载时，请求数据
  */
 onMounted(() => {
+  recordDetail();
   loadData();
 });
 

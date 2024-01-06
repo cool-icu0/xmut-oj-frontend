@@ -19,7 +19,7 @@ import type { QuestionUpdateRequest } from '../models/QuestionUpdateRequest';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
-import { isBlob, request as __request } from "../core/request";
+import { request as __request } from '../core/request';
 
 export class QuestionControllerService {
 
@@ -168,6 +168,29 @@ id?: number,
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/question/get/vo',
+            query: {
+                'id': id,
+            },
+            errors: {
+                401: `Unauthorized`,
+                403: `Forbidden`,
+                404: `Not Found`,
+            },
+        });
+    }
+
+    /**
+     * getQuestionById2Answer
+     * @param id id
+     * @returns BaseResponse_Question_ OK
+     * @throws ApiError
+     */
+    public static getQuestionById2AnswerUsingGet(
+id?: number,
+): CancelablePromise<BaseResponse_Question_> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/question/get2Answer',
             query: {
                 'id': id,
             },

@@ -112,17 +112,35 @@
           </a-tag>
         </a-space>
       </template>
-      <template #judgeCase="{ record }">
-        <a-space wrap>
-          <a-tag
-            v-for="(config, index) of JSON.parse(record.judgeCase)"
-            :key="index"
-            color="blue"
-            >示例{{ index + 1 }}: 输入：{{ config.input }} ，输出：{{
-              config.output
-            }}
-          </a-tag>
-        </a-space>
+      <template #info="{ record }">
+        <a-button shape="round" type="outline" @click="handleClick"
+          >查看
+        </a-button>
+        <a-drawer
+          :width="340"
+          :visible="visible"
+          @ok="handleOk"
+          @cancel="handleCancel"
+          unmountOnClose
+        >
+          <template #title> 详情</template>
+          <div>
+            <h4>题目：</h4>
+            <MdViewer :value="record.content" />
+            <h4>答案</h4>
+            <MdViewer :value="record.answer" />
+            <h4>判题用例</h4>
+            <a-space
+              wrap
+              v-for="(config, index) of JSON.parse(record.judgeCase)"
+              :key="index"
+            >
+              示例{{ index + 1 }}: 输入：{{ config.input }} ，输出：{{
+                config.output
+              }}
+            </a-space>
+          </div>
+        </a-drawer>
       </template>
       <template #optional="{ record }">
         <a-space>
@@ -161,7 +179,20 @@ import message from "@arco-design/web-vue/es/message";
 
 import { useRouter } from "vue-router";
 import axios from "axios";
+import MdEditor from "@/components/MdEditor.vue";
+import MdViewer from "@/components/MdViewer.vue";
 
+const visible = ref(false);
+
+const handleClick = () => {
+  visible.value = true;
+};
+const handleOk = () => {
+  visible.value = false;
+};
+const handleCancel = () => {
+  visible.value = false;
+};
 const selectedKeys = ref<Array<number>>([]);
 // const selectedKeys = ref<number[]>([]);
 
@@ -223,16 +254,8 @@ const columns = [
     dataIndex: "userId",
   },
   {
-    title: "内容",
-    dataIndex: "content",
-  },
-  {
     title: "标签",
-    dataIndex: "tags",
-  },
-  {
-    title: "答案",
-    dataIndex: "answer",
+    slotName: "tags",
   },
   {
     title: "提交数",
@@ -244,11 +267,7 @@ const columns = [
   },
   {
     title: "判题题目",
-    dataIndex: "judgeConfig",
-  },
-  {
-    title: "判题用例",
-    dataIndex: "judgeCase",
+    slotName: "judgeConfig",
   },
   {
     title: "用户id",
@@ -257,6 +276,10 @@ const columns = [
   {
     title: "创建时间",
     dataIndex: "createTime",
+  },
+  {
+    title: "详情",
+    slotName: "info",
   },
   {
     title: "操作",
@@ -336,7 +359,7 @@ const batchDownload = async () => {
     //   await QuestionControllerService.batchDownloadQuestionsUsingPost(
     //     selectedKeys.value
     //   );
-    // console.log("当前代码格式", response);
+    console.log("当前代码格式", response);
     const blob = new Blob([response.data], { type: "application/zip" });
     const url = window.URL.createObjectURL(blob);
     const link = document.createElement("a");
